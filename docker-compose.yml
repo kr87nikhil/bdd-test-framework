@@ -1,0 +1,10 @@
+version: '3.8'
+services:
+  test:
+    build:
+      context: .
+      target: test
+    volumes:
+      - .:/pytest_project
+    stdin_open: true
+    tty: true
