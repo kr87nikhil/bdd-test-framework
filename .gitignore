@@ -131,3 +131,6 @@ dmypy.json
 
 # Pycharm IDE
 .idea/
+
+# Execution report
+reports/

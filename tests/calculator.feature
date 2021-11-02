@@ -32,3 +32,9 @@ Feature: Calculator
     | 32           | SUBTRACTION    | -96           | 128                 |
     | -629         | MULTIPLICATION | 27            | -16983              |
     | 4689         | DIVISION       | -33           | -142.09090909090909 |
+
+
+  @jira(Test-254)
+  Scenario: Zero divisor
+    When 26 is divided by zero
+    Then divide by zero exception should be raised

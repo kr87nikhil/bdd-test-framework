@@ -30,6 +30,8 @@ class Calculator:
     def division(cls, first_num, second_num):
         """Divide first argument by second argument"""
         cls.save_operation(first_num, second_num, cls.DIVISION_SYMBOL)
+        if second_num == 0:
+            raise ZeroDivisionError('Division by Zero is attempted')
         return first_num / second_num
 
     @classmethod
