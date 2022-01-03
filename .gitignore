@@ -106,7 +106,7 @@ celerybeat.pid
 .venv
 env/
 venv/
-virtual_environment/
+test_workspace/
 ENV/
 env.bak/
 venv.bak/
@@ -131,6 +131,9 @@ dmypy.json
 
 # Pycharm IDE
 .idea/
+
+# VS Code
+.vscode/
 
 # Execution report
 reports/

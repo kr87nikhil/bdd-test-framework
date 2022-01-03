@@ -12,7 +12,7 @@ scenarios('calculator.feature')
 
 
 @when(
-    "<first_number> is operated with <operation> by <second_number>",
+    parsers.parse("{first_number:g} is operated with {operation} by {second_number:g}"),
     target_fixture='actual_result'
 )
 def is_operated_with_by(first_number, operation, second_number):
@@ -20,7 +20,9 @@ def is_operated_with_by(first_number, operation, second_number):
     return calculator_operation(float(first_number), float(second_number))
 
 
-@then("result should be <expected_result>")
+@then(
+    parsers.parse("result should be {expected_result:g}")
+)
 def result_should_be(expected_result, actual_result):
     assert float(expected_result) == actual_result, 'Calculator operation result should match'
 

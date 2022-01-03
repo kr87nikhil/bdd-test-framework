@@ -13,7 +13,8 @@ setup(
     url='https://github.com/kr87nikhil/python-bdd',
     packages=find_packages(
         include=[
-            "app"
+            "app",
+            "database"
         ]
     ),
     classifiers=[

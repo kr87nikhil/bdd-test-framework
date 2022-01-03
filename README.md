@@ -5,6 +5,9 @@
 - [Usage](#usage)
 - [Debugging](#debugging)
 - [Integration Coverage](#integration-coverage)
+  - [Database](#database)
+     - Relational
+     - Non-Relational
   - [Web Service](#web-service)
 - [Feedback](#feedback) - Please create issues to provide feedback!
 
@@ -26,8 +29,8 @@ It is built on top of `pytest` library.
 Already installed Python 3.9 or above
 ```bash
 $ pip install --upgrade pip setuptools
-$ py -3 -m venv virtual_environement
-$ .\virtual_environment\Scripts\activate
+$ py -3 -m venv test_workspace
+$ .\test_workspace\Scripts\activate
 $ pip install -e .
 $ pip install -r requirements.txt
 ```
@@ -67,7 +70,7 @@ $ exit
 
 ## Debugging
 
-1. If you page up `(ctrl + fn)`(VS Code) or `(Ctrl + F8)`(Pycharm IDE) within the debug output when running `pytest -vvl` or
+1. If you press `(ctrl + fn)`(VS Code) or `(Ctrl + F8)`(Pycharm IDE) within the debug output when running `pytest -vvl` or
 when encountering test errors, your cursor may stick and be unable to continue 
 writing in the docker shell. You can get past this by typing `q` to return to
 entry mode in the docker container.
@@ -78,8 +81,14 @@ entry mode in the docker container.
    * `breakpoint()`
 
 ## Integration Coverage
+### Database
+**Relational:**
+The SQLAlchemy SQL Toolkit and Object Relational Mapper is a comprehensive set of tools for working databases with Python.
 
-### Web-Service
+**Non-Relational:**
+No-SQL database means not-only SQL, provides other programming construct to access data.
+
+### Web Service
 
 [Go Rest](https://gorest.co.in/) - Online REST API for Testing
 
