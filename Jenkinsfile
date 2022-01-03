@@ -34,10 +34,10 @@ pipeline {
             steps {
                 bat '''
                 py.test ${TEST_MODULE} -n auto^
-                --log-file=reports/${TEST_SUITE}/log.txt^
-                --junitxml=reports/${TEST_SUITE}/execution_results.xml^
-                --html=reports/${TEST_SUITE}/index.html --self-contained-html^
-                --cucumberjson=reports/${TEST_SUITE}/cucumber.json --cucumberjson-expanded
+                --log-file=target/${TEST_SUITE}/log.txt^
+                --junitxml=target/${TEST_SUITE}/reports/execution_results.xml^
+                --html=target/${TEST_SUITE}/reports/index.html --self-contained-html^
+                --cucumberjson=target/${TEST_SUITE}/reports/cucumber.json
                 '''
             }
         }
