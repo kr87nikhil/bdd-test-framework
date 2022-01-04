@@ -6,7 +6,8 @@ class SqlScriptReader:
 
     def __init__(self, file_name = 'initialize_mysql.sql'):
         """Read sql file from resources folder"""
-        base_path = Path(__file__).parent.parent
+        self.index = -1
+        base_path = Path(__file__).parent.parent.parent
         with open(join(base_path, 'resources', file_name)) as sql_file:
             self.sql_queries = sql_file.read().split(';')[:4]
     
@@ -15,7 +16,9 @@ class SqlScriptReader:
         return self
 
     def __next__(self):
-        """Execute SQL scripts sequentially"""
-        for script in self.sql_queries:
-            return script.strip()
-        raise StopIteration
+        """Get next SQL script"""
+        self.index += 1
+        if self.index == len(self.sql_queries):
+            raise StopIteration
+        else:
+            return self.sql_queries[self.index].strip() + ';'

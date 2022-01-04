@@ -1,19 +1,19 @@
 CREATE DATABASE IF NOT EXISTS sqlAlchemy;
 USE sqlAlchemy;
 
-CREATE TABLE Project IF NOT EXISTS(
-    project_id INT NOT NULL AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS project(
+    projectId INT NOT NULL AUTO_INCREMENT,
     title VARCHAR(30),
     description VARCHAR(255),
-    PRIMARY KEY(project_id)
+    PRIMARY KEY(projectId)
 );
 
-CREATE TABLE Tasks IF NOT EXISTS(
-    task_id INT NOT NULL AUTO_INCREMENT,
-    project_id INT,
+CREATE TABLE IF NOT EXISTS task(
+    taskId INT NOT NULL AUTO_INCREMENT,
+    projectId INT,
     description VARCHAR(100),
-    PRIMARY KEY(task_id)
-    FOREIGN KEY(project_id) REFERENCES Project(project_id)
+    PRIMARY KEY(taskId),
+    FOREIGN KEY(projectId) REFERENCES project(projectId)
 );
 /*
 INSERT INTO Project(title, description) VALUES

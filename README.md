@@ -28,8 +28,7 @@ It is built on top of `pytest` library.
 
 Already installed Python 3.9 or above
 ```bash
-$ pip install --upgrade pip setuptools
-$ py -3 -m venv test_workspace
+$ python3.10 -m venv test_workspace --upgrade-deps
 $ .\test_workspace\Scripts\activate
 $ pip install -e .
 $ pip install -r requirements.txt

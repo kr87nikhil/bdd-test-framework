@@ -31,7 +31,6 @@ def directed_by_is_published_on(database_engine, movies_table, movie_name, direc
 def movie_should_be_persisted_in_the_DB(database_engine, movies_table, movie_name):
     select_stmt = select(movies_table).where(movies_table.c.Title == movie_name)
     with database_engine.connect() as conn:
-        result = conn.execute(select_stmt)
-        assert len(result.all()) == 1, 'Only one record should be added'
-        result = conn.execute(select_stmt)
-        assert result.first().Title == movie_name, 'Movie with specified title should be fetched'
+        result = conn.execute(select_stmt).all()
+        assert len(result) == 1, 'Only one record should be added'
+        assert result[0][0] == movie_name, 'Movie with specified title should be fetched'

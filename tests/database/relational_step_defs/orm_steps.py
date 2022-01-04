@@ -15,16 +15,16 @@ def project_need_to_be_completed(database_engine):
     project_description = 'Clean by room'
     with Session(database_engine) as session:
         select_stmt = select(Project).where(Project.title == project_title)
-        result = session.execute(select_stmt).all()
-        if len(result) == 0:
+        result = session.execute(select_stmt).first()
+        if result == None:
             insert_stmt = insert(Project).values(
                 title = project_title, description = project_description
-            ).compile()
+            )
             insert_result = session.execute(insert_stmt)
             session.commit()
             return insert_result.inserted_primary_key[0]
         else:
-            return result[0].project_id
+            return result[0].projectId
 
 @when(
     parsers.parse('task with {task_description} need to be completed'),
@@ -33,23 +33,22 @@ def project_need_to_be_completed(database_engine):
 def task_need_to_be_completed(database_engine, project_id, task_description):
     """Add task to the selected project"""
     select_stmt = select(Task).where(
-        Task.project_id == project_id, Task.description == task_description
+        Task.projectId == project_id, Task.description == task_description
     )
     insert_stmt = insert(Task).values(
-        project_id = project_id, description = task_description
-    ).compile()
+        projectId = project_id, description = task_description
+    )
     with Session(database_engine) as session:
-        result = session.execute(select_stmt).all()
-        if len(result) == 1:
-            return result[0].task_id
+        result = session.execute(select_stmt).first()
+        if result != None:
+            return result[0].taskId
         insert_result = session.execute(insert_stmt)
         session.commit()
         return insert_result.inserted_primary_key
 
 @then('task details should be persisted in the DB')
 def task_details_should_be_persisted_in_the_db(database_engine, task_description, task_id):
-    select_stmt = select(Task).where(Task.task_id == task_id)
+    select_stmt = select(Task).where(Task.taskId == task_id)
     with Session(database_engine) as session:
-        result = session.execute(select_stmt).all()
-        assert len(result) == 1, 'There should be atmost 1 newly added task'
-        assert result[0].task_description == task_description, 'Created task description should match'
+        result = session.execute(select_stmt).first()
+        assert result[0].description == task_description, 'Created task description should match'
