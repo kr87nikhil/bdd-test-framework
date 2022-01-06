@@ -7,7 +7,7 @@ class SqlScriptReader:
     def __init__(self, file_name = 'initialize_mysql.sql'):
         """Read sql file from resources folder"""
         self.index = -1
-        base_path = Path(__file__).parent.parent.parent
+        base_path = Path(__file__).parent.parent
         with open(join(base_path, 'resources', file_name)) as sql_file:
             self.sql_queries = sql_file.read().split(';')[:4]
     

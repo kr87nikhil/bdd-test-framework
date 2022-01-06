@@ -1,8 +1,9 @@
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql.schema import Column
 from sqlalchemy.sql.sqltypes import Integer, String
-from database import Base
-# from database.business_model.reflected import Reflected
+
+from tests.database.relational import Base
+# from database.relational.persistence.reflected import Reflected
 
 
 class Project(Base):

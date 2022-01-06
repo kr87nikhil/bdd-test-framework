@@ -2,8 +2,8 @@ from sqlalchemy.orm import Session
 from sqlalchemy.sql.expression import insert, select
 from pytest_bdd import given, when, then, parsers
 
-from database.business_model.project import Project
-from database.business_model.task import Task
+from tests.database.relational.persistence.model.project import Project
+from tests.database.relational.persistence.model.task import Task
 
 @given(
     parsers.parse('project need to be completed'),

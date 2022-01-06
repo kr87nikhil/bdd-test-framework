@@ -1,11 +1,6 @@
 import pytest
-from database.utility.relational.mysql_factory import MySQLFactory
-from database.utility.relational.sqlite3_factory import SQLite3Factory
-
-
-def pytest_addoption(parser):
-    """Define pytest command line parameters"""
-    parser.addoption("--relational_db", action="store", default='SQLite3', help='Target database')
+from tests.database.relational.utility.mysql_factory import MySQLFactory
+from tests.database.relational.utility.sqlite3_factory import SQLite3Factory
 
 
 @pytest.fixture(scope='session')

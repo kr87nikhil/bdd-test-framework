@@ -14,7 +14,7 @@ setup(
     packages=find_packages(
         include=[
             "app",
-            "database"
+            "relational"
         ]
     ),
     classifiers=[
