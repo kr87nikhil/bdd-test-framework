@@ -2,8 +2,8 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.sql.schema import Column
 from sqlalchemy.sql.sqltypes import Integer, String
 
-from tests.database.relational import Base
-# from database.relational.persistence.reflected import Reflected
+from relational import Base
+# from relational.persistence.reflected import Reflected
 
 
 class Project(Base):
@@ -16,3 +16,6 @@ class Project(Base):
     description = Column(String)
 
     tasks = relationship('Task', back_populates='project')
+
+    def __repr__(self) -> str:
+        return f'<Project(title={self.title}, description={self.description})>'

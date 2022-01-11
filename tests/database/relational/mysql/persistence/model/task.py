@@ -2,7 +2,7 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.sql.schema import Column, ForeignKey
 from sqlalchemy.sql.sqltypes import Integer, String
 
-from tests.database.relational import Base
+from relational import Base
 # from database.relational.persistence.reflected import Reflected
 
 
@@ -16,3 +16,6 @@ class Task(Base):
     projectId = Column(Integer, ForeignKey('sqlAlchemy.project.projectId'))
 
     project = relationship('Project', back_populates='tasks')
+
+    def __repr__(self) -> str:
+        return f'<Task(description={self.description})>'

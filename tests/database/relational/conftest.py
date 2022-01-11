@@ -1,6 +1,6 @@
 import pytest
-from tests.database.relational.utility.mysql_factory import MySQLFactory
-from tests.database.relational.utility.sqlite3_factory import SQLite3Factory
+from relational.utility.mysql_factory import MySQLFactory
+from relational.utility.sqlite3_factory import SQLite3Factory
 
 
 @pytest.fixture(scope='session')

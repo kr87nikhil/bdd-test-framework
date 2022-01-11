@@ -2,7 +2,7 @@ from sqlalchemy import create_engine, text
 from sqlalchemy.orm import Session
 # from database.business_model.reflected import Reflected
 from database.utility.database_factory import DatabaseFactory
-from database.relational.utility.sql_script_reader import SqlScriptReader
+from relational.utility.sql_script_reader import SqlScriptReader
 
 
 class MySQLFactory(DatabaseFactory):
