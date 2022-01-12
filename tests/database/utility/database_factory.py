@@ -1,4 +1,5 @@
 from abc import ABC, abstractclassmethod
+from sqlalchemy.engine.base import Engine
 
 
 class DatabaseFactory(ABC):
@@ -9,11 +10,11 @@ class DatabaseFactory(ABC):
 
     @property
     @abstractclassmethod
-    def db_name():
+    def db_name() -> str:
         """Database name"""
         pass
 
     @abstractclassmethod
-    def create_database():
+    def create_database() -> Engine:
         """Get database engine"""
         pass
