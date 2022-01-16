@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name='python-bdd',
-    version='1.0',
+    version='1.2',
     author='nikhil',
     description='Python test automation framework implementation',
     long_description=long_description,
@@ -14,6 +14,7 @@ setup(
     packages=find_packages(
         include=[
             "app",
+            "app_aws",
             "relational"
         ]
     ),
