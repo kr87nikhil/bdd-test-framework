@@ -5,10 +5,9 @@ Feature: MySQL database testing using SQLAlchemy ORM
 @MySQL
 @jira(Test-571)
 Scenario Outline: ORM operations
-    Given project need to be completed 
-    #     | field               | value           |
-    #     | project_title       | Clean house     |
-    #     | project_description | Clean by room   |
+    Given project need to be completed
+         | project_title       | Clean house     |
+         | project_description | Clean by room   |
     When task with <task_description> need to be completed
     Then task details should be persisted in the DB
 
