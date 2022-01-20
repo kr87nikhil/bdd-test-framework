@@ -16,7 +16,7 @@ def pytest_bdd_apply_tag(tag, function):
     if tag == 'todo':
         marker = pytest.mark.skip(reason="Not implemented yet")
         marker(function)
-        return True
+        return False
     elif 'jira' in tag:
         marker = pytest.mark.jira.with_args(*tag[5:-1].split(','))
         marker(function)
