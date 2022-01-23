@@ -8,7 +8,7 @@ from relational.mysql.business_logic.project_facade import ProjectFacade
 
 @given(
     parsers.parse('project need to be completed\n{step_table_dict:static_fields}'),
-    extra_types=dict(static_fields=StepTable.parse_nested_key_step_table),
+    extra_types=dict(static_fields=StepTable.parse_step_table),
     target_fixture='project_id'
 )
 def project_need_to_be_completed(project_facade: ProjectFacade, step_table_dict):

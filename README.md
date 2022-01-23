@@ -1,8 +1,11 @@
 # python-bdd
 
 - [Introduction](#introduction)
-- [Prerequisite](#prerequisite)
+- [Pre-requisite](#pre-requisite)
+  - From Terminal
+  - Using Docker
 - [Usage](#usage)
+- [Generate Step definition](#generate-step-definition)
 - [Debugging](#debugging)
 - [Integration Coverage](#integration-coverage)
   - [Database](#database)
@@ -23,21 +26,21 @@ It is built on top of `pytest` library.
 - Great to use with CI tools like Travis, Jenkins, and Circle CI
 - Actively maintained with a particularity open-source community
 
-## Prerequisite
-**1. Run from Terminal**
+## Pre-requisite
 
-Already installed Python 3.9 or above
+### 1. From Terminal
+
+Install Python 3.9 or above
 ```bash
-$ python3.10 -m venv test_workspace --upgrade-deps
+$ python -m venv test_workspace --upgrade-deps
 $ .\test_workspace\Scripts\activate
 $ pip install -e .
 $ pip install -r requirements.txt
 ```
 
-**2. Run using Docker**
+### 2. Using Docker
 
-These tests have been packaged to run with all dependencies installed within a Docker container.
-To run install docker and open a shell:
+These tests have been packaged to run with all dependencies installed within a Docker container. To run install docker and open a shell:
 ```bash
 $ docker-compose build
 $ docker-compose run test sh
@@ -45,26 +48,21 @@ $ docker-compose run test sh
 
 This will open the docker shell.
 
+## Generate Step definition
+```sh
+python -m py.test --generate-missing --feature .\tests\app_aws\features .\tests\app_aws\step_defs
+```
+
 ## Usage
   
-**Run the test matching marker**
+Run the test matching marker while printing all variables and verbose output
 ```bash
-$ pytest 
+$ pytest -vvl -m "database"
 ```
 
-**Run the tests for a certain file matching a keyword**
+Run the tests for a certain file matching a keyword
 ```bash
 $ pytest -k <test_file_name>
-```
-
-**Run tests while printing all variables and verbose output**
-```bash
-$ pytest -vvl
-```
-
-**To exit the shell**
-```bash
-$ exit
 ```
 
 ## Debugging
@@ -80,14 +78,14 @@ entry mode in the docker container.
    * `breakpoint()`
 
 ## Integration Coverage
-### Database
+### 1. Database
 **Relational:**
 The SQLAlchemy SQL Toolkit and Object Relational Mapper is a comprehensive set of tools for working databases with Python.
 
 **Non-Relational:**
 No-SQL database means not-only SQL, provides other programming construct to access data.
 
-### Web Service
+### 2. Web Service
 
 [Go Rest](https://gorest.co.in/) - Online REST API for Testing
 
