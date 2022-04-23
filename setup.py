@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name='python-bdd',
-    version='1.3',
+    version='1.4',
     author='nikhil',
     description='Python test automation framework implementation',
     long_description=long_description,
@@ -16,7 +16,8 @@ setup(
             "app",
             "app_aws",
             "relational",
-            "non-relational"
+            "non-relational",
+            "utility"
         ]
     ),
     classifiers=[
