@@ -2,16 +2,17 @@
 
 - [Introduction](#introduction)
 - [Pre-requisite](#pre-requisite)
-  - From Terminal
-  - Using Docker
+  - [From Terminal](#1-from-terminal)
+  - [Using Docker](#2-using-docker)
 - [Usage](#usage)
-- [Generate Step definition](#generate-step-definition)
 - [Debugging](#debugging)
 - [Integration Coverage](#integration-coverage)
   - [Database](#database)
      - Relational
      - Non-Relational
   - [Web Service](#web-service)
+- [External Report](#external-report)
+  - [Report Portal](#report-portal)
 - [Feedback](#feedback) - Please create issues to provide feedback!
 
 
@@ -31,11 +32,21 @@ It is built on top of `pytest` library.
 ### 1. From Terminal
 
 Install Python 3.9 or above
-```bash
+<br>
+1. Windows<br>
+```cmd
 $ python -m venv test_workspace --upgrade-deps
 $ .\test_workspace\Scripts\activate
-$ pip install -e .
-$ pip install -r requirements.txt
+```
+2. Linux<br>
+```bash
+$ python3 -m virtualenv test_workspace
+$ source test_workspace/bin/activate
+```
+Common:<br>
+```console
+pip install -e .
+pip install -r requirements.txt
 ```
 
 ### 2. Using Docker
@@ -45,16 +56,14 @@ These tests have been packaged to run with all dependencies installed within a D
 $ docker-compose build
 $ docker-compose run test sh
 ```
-
 This will open the docker shell.
 
-## Generate Step definition
+## Usage
+Generate Step definition
 ```sh
 python -m py.test --generate-missing --feature .\tests\app_aws\features .\tests\app_aws\step_defs
 ```
 
-## Usage
-  
 Run the test matching marker while printing all variables and verbose output
 ```bash
 $ pytest -vvl -m "database"
@@ -88,6 +97,19 @@ No-SQL database means not-only SQL, provides other programming construct to acce
 ### 2. Web Service
 
 [Go Rest](https://gorest.co.in/) - Online REST API for Testing
+
+## External Report
+### Report Portal
+ReportPortal is a service, that provides increased capabilities to speed up results analysis and reporting through the use of built-in analytic features.
+Report portal provides:
+* Real-time integration
+* Historical data of test execution
+* AI-powered Test Automation Dashboard
+
+For authentication, set environment variable:
+* RP_UUID
+
+Reference: https://github.com/reportportal/agent-python-pytest
 
 ## Feedback
 

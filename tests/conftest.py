@@ -2,22 +2,26 @@ import logging
 import pytest
 
 
-@pytest.fixture(scope='function', autouse=True)
+@pytest.fixture(autouse=True)
 def junit_tag(request, record_xml_attribute):
     """Apply Jira id to testcase JUnit XML report"""
     for marker in request.node.own_markers:
         if marker.name == 'jira':
             jira_ids = marker.args
-    record_xml_attribute('jira', ','.join(jira_ids))
+            record_xml_attribute('jira', ','.join(jira_ids))
+
+
+@pytest.fixture(autouse=True)
+def skip_with_tag(request):
+    """Skip test cases based on specific tags"""
+    for marker in request.node.iter_markers():
+        if marker.name == 'todo':
+            pytest.skip("Not completed yet")
 
 
 def pytest_bdd_apply_tag(tag, function):
     """Customize how tags are converted to pytest marks"""
-    if tag == 'todo':
-        marker = pytest.mark.skip(reason="Not implemented yet")
-        marker(function)
-        return False
-    elif 'jira' in tag:
+    if 'jira' in tag:
         marker = pytest.mark.jira.with_args(*tag[5:-1].split(','))
         marker(function)
         return True
@@ -25,10 +29,16 @@ def pytest_bdd_apply_tag(tag, function):
     return None
 
 
+def pytest_bdd_before_scenario(feature, scenario):
+    """Called before scenario is executed"""
+    logging.info(f'\nFeature: {feature.name}\n  Scenario Name: {scenario.name}')
+
+
 def pytest_bdd_before_step_call(request, step, step_func, step_func_args):
     """Called before step function is executed with evaluated arguments"""
     logging.info(f'\t{step.keyword} {step.name}')
-    logging.debug(f'\t\t{step_func}_({", ".join(str(value) for value in step_func_args.values())})')
+    logging.debug(f'\t\t{str(step_func)[10:-23]}__' +
+                  " ".join(f'<{key}={repr(value).split(".")[-1]}>' for key, value in step_func_args.items()))
 
 
 def pytest_bdd_step_error(request, exception):
@@ -38,10 +48,9 @@ def pytest_bdd_step_error(request, exception):
 
 def pytest_bdd_after_scenario(request, feature, scenario):
     """Called after scenario is executed (even if one of steps has failed)"""
-    logging.info(f'Execution complete {scenario.name}\n')
+    logging.info('Execution complete')
 
 
 def pytest_bdd_step_func_lookup_error(request, feature, scenario, step, exception):
     """Called when step lookup failed"""
-    logging.fatal('Step lookup failed: ' + step.keyword + ' ' + step.name +
-                  '\nException: ' + str(exception))
+    logging.fatal('Step lookup failed: ' + step.keyword + ' ' + step.name + '\nException: ' + str(exception))
