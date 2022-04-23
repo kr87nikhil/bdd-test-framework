@@ -4,8 +4,8 @@ from boto3 import client
 from botocore.client import BaseClient, ClientError
 
 from app_aws import my_config
-from app_aws.business_logic.model.thing import Thing
-from app_aws.business_logic.dao.thing_dao import ThingDao
+from non_relational.dynamo_db.business_logic.model.thing import Thing
+from non_relational.dynamo_db.business_logic.dao.thing_dao import ThingDao
 
 
 class ThingDaoImpl(ThingDao):

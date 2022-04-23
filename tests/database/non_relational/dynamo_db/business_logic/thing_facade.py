@@ -1,7 +1,7 @@
 from os import getenv, path
 from requests import post
-from app_aws.business_logic.model.thing import Thing
-from tests.app_aws.business_logic.dao.thing_dao import ThingDao
+from non_relational.dynamo_db.business_logic.model.thing import Thing
+from non_relational.dynamo_db.business_logic.dao.thing_dao import ThingDao
 
 
 class ThingFacade:

@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import List
-from tests.app_aws.business_logic.model.thing import Thing
+from non_relational.dynamo_db.business_logic.model.thing import Thing
 
 
 class ThingDao(ABC):
