@@ -11,7 +11,8 @@ class ThingFacade:
     def __init__(self, thing_dao: ThingDao) -> None:
         self.__thing_dao = thing_dao
 
-    def __get_request_payload(self, thing: Thing, table_name: str):
+    @staticmethod
+    def __get_request_payload(thing: Thing, table_name: str):
         return {
             'TableName': table_name,
             'Item': {
@@ -27,6 +28,6 @@ class ThingFacade:
     def create_thing(self, thing: Thing, table_name: str):
         """Save thing if not added"""
         if not self.is_thing_exist(thing, table_name):
-            response = post(path.join(self.__base_url, 'serverlessWebAppCRUD'), 
-                json=self.__get_request_payload(thing, table_name))
+            response = post(path.join(self.__base_url, 'serverlessWebAppCRUD'),
+                            json=self.__get_request_payload(thing, table_name))
             response.raise_for_status()

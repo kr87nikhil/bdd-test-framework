@@ -1,3 +1,4 @@
+@database @non_relational @DynamoDB
 Feature: AWS API gateway integration
   As a user AWS application
   I want to trigger HTTP request to AWS API gateway endpoint
@@ -17,7 +18,7 @@ Feature: AWS API gateway integration
   @jira(Test-826)
   Scenario Outline: Create record in Dynamo DB
     When POST HTTP request is triggered to <db_record> in things
-    Then same record should be available in DB
+    Then record should be available in DB
 
   Examples:
   | db_record                 |

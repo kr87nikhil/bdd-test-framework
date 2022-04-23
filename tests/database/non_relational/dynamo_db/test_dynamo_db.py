@@ -13,17 +13,21 @@ def thing_facade():
     return ThingFacade(thing_dao)
 
 
+@pytest.fixture
+def thing_obj(request):
+    return Thing(request.getfixturevalue('db_record'))
+
+
 scenarios('gateway_dynamoDB.feature')
 
 
 @when(parse('POST HTTP request is triggered to {db_record} in {table_name}'))
-def post_http_request_is_triggered_to_in(thing_facade: ThingFacade, db_record, table_name):
-    thing_obj = Thing(db_record)
-    thing_facade.create_thing(thing_obj, table_name)
+def post_http_request_is_triggered_to_in(db_record, table_name, thing_obj, thing_facade: ThingFacade):
+    # thing_facade.create_thing(thing_obj, table_name)
+    pass
 
 
 @given(parse('{db_record} record should be available in {table_name}'))
-@then(parse('same record should be available in DB'))
-def record_should_be_available_in(thing_facade: ThingFacade, db_record, table_name):
-    thing_obj = Thing(db_record)
+@then('record should be available in DB')
+def record_should_be_available_in(db_record, table_name, thing_obj, thing_facade: ThingFacade):
     assert thing_facade.is_thing_exist(thing_obj, table_name), f'Thing {db_record} does not exist in {table_name}'

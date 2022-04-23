@@ -7,5 +7,4 @@ class Thing:
     def __eq__(self, __o: object) -> bool:
         if isinstance(__o, self.__class__):
             return self.creation_instance == __o.creation_instance
-        else:
-            False
+        return False
