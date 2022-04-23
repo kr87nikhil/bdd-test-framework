@@ -4,8 +4,7 @@ Feature: MySQL database testing using SQLAlchemy ORM
     I want to be able to divide project by tasks
     So that I would be able to save task in database
 
-@todo 
-@jira(Test-571)
+@todo @jira(Test-571)
 Scenario Outline: ORM operations
     Given project need to be completed
         | project_title       | Clean house     |
