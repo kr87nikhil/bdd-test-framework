@@ -1,9 +1,10 @@
+@testrail(suite_id=10)
 Feature: Calculator
   As a user of calculator application
   I want to perform basic operations
   So that able to get result and history of all operations
 
-  @jira(Test-253)
+  @jira(Test-253) @testrail(section_id=188)
   Scenario Outline: All available operation
     When <first_number> is operated with <operation> by <second_number>
     Then result should be <expected_result>
@@ -20,8 +21,7 @@ Feature: Calculator
     | 27.0         | DIVISION       | 3             | 9.0             |
 
 
-
-  @jira(Test-254)
+  @jira(Test-254) @testrail(section_id=188)
   Scenario Outline: With one negative number
     When <first_number> is operated with <operation> by <second_number>
     Then result should be <expected_result>
@@ -34,7 +34,7 @@ Feature: Calculator
     | 4689         | DIVISION       | -33           | -142.09090909090909 |
 
 
-  @jira(Test-254)
+  @jira(Test-254) @testrail(section_id=189)
   Scenario: Zero divisor
     When 26 is divided by zero
     Then divide by zero exception should be raised

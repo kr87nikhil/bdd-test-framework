@@ -13,6 +13,7 @@
   - [Web Service](#web-service)
 - [External Report](#external-report)
   - [Report Portal](#report-portal)
+  - [TestRail](#testrail)
 - [Feedback](#feedback) - Please create issues to provide feedback!
 
 
@@ -110,6 +111,15 @@ For authentication, set environment variable:
 * RP_UUID
 
 Reference: https://github.com/reportportal/agent-python-pytest
+
+### TestRail
+TestRail is a web-based test case management tool.
+It is used by testers, developers and team leads to manage, track, and organize software testing efforts.
+TestRail allows team members to enter test cases, organize test suites, execute test runs, and track their results, all from a modern and easy to use web interface.
+
+For authentication, set environment variable:
+* testrail-username
+* testrail-password
 
 ## Feedback
 
