@@ -3,15 +3,6 @@ import pytest
 
 
 @pytest.fixture(autouse=True)
-def junit_tag(request, record_xml_attribute):
-    """Apply Jira id to testcase JUnit XML report"""
-    for marker in request.node.own_markers:
-        if marker.name == 'jira':
-            jira_ids = marker.args
-            record_xml_attribute('jira', ','.join(jira_ids))
-
-
-@pytest.fixture(autouse=True)
 def skip_with_tag(request):
     """Skip test cases based on specific tags"""
     for marker in request.node.iter_markers():
@@ -19,10 +10,26 @@ def skip_with_tag(request):
             pytest.skip("Not completed yet")
 
 
+@pytest.fixture(autouse=True)
+def junit_tag(request, record_property):
+    """Apply Jira id to testcase JUnit XML report"""
+    for marker in request.node.own_markers:
+        if marker.name == 'jira':
+            record_property(marker.name, ','.join(marker.args))
+        elif 'testrail' in marker.name:
+            record_property(marker.name, marker.args[0])
+
+
 def pytest_bdd_apply_tag(tag, function):
     """Customize how tags are converted to pytest marks"""
     if 'jira' in tag:
         marker = pytest.mark.jira.with_args(*tag[5:-1].split(','))
+        marker(function)
+        return True
+    elif 'testrail' in tag:
+        marker = pytest.mark.testrail_suite_id.with_args(tag[18:-1]) \
+            if 'suite_id' in tag \
+            else pytest.mark.testrail_section_id.with_args(tag[20:-1])
         marker(function)
         return True
     # Fall back to pytest-bdd's default behavior
