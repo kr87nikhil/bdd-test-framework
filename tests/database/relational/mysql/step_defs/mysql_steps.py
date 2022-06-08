@@ -8,13 +8,13 @@ from relational.mysql.business_logic.project_facade import ProjectFacade
 
 
 @given(
-    parsers.parse('project need to be completed\n{step_table_dict:static_fields}'),
-    extra_types=dict(static_fields=StepTable.parse_step_table), target_fixture='project_id'
+    parsers.parse('project need to be completed\n{step_table_dict}'), target_fixture='project_id'
 )
 def project_need_to_be_completed(project_facade: ProjectFacade, step_table_dict):
     """Insert data in project table if not exist"""
-    project_title = step_table_dict.get('project_title')
-    project_description = step_table_dict.get('project_description')
+    parsed_step_table_dict = StepTable.parse_step_table(step_table_dict)
+    project_title = parsed_step_table_dict.get('project_title')
+    project_description = parsed_step_table_dict.get('project_description')
     project_obj = Project(title=project_title, description=project_description)
     return project_facade.create_project(project_obj)
 

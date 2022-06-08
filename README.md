@@ -1,4 +1,4 @@
-# python-bdd
+# Python - Behaviour Driven Development
 
 - [Introduction](#introduction)
 - [Pre-requisite](#pre-requisite)
@@ -31,20 +31,18 @@ It is built on top of `pytest` library.
 ## Pre-requisite
 
 ### 1. From Terminal
-
-Install Python 3.9 or above
-<br>
-1. Windows<br>
+**Install Python 3.9 or above**
+1. Windows
 ```cmd
 $ python -m venv test_workspace --upgrade-deps
 $ .\test_workspace\Scripts\activate
 ```
-2. Linux<br>
+2. Linux
 ```bash
 $ python3 -m virtualenv test_workspace
 $ source test_workspace/bin/activate
 ```
-Common:<br>
+Common:
 ```console
 pip install -e .
 pip install -r requirements.txt
@@ -118,8 +116,8 @@ It is used by testers, developers and team leads to manage, track, and organize 
 TestRail allows team members to enter test cases, organize test suites, execute test runs, and track their results, all from a modern and easy to use web interface.
 
 For authentication, set environment variable:
-* testrail-username
-* testrail-password
+* TESTRAIL_ID
+* TESTRAIL_KEY
 
 ## Feedback
 
