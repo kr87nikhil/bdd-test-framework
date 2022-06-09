@@ -14,6 +14,7 @@
 - [External Report](#external-report)
   - [Report Portal](#report-portal)
   - [TestRail](#testrail)
+  - [Allure](#allure)
 - [Feedback](#feedback) - Please create issues to provide feedback!
 
 
@@ -118,6 +119,15 @@ TestRail allows team members to enter test cases, organize test suites, execute 
 For authentication, set environment variable:
 * TESTRAIL_ID
 * TESTRAIL_KEY
+
+### Allure
+Allure Framework is a flexible lightweight multi-language test report tool.
+It not only shows a very concise representation of what have been tested in a neat web report form, but allows everyone participating in the development process to extract maximum of useful information from everyday execution of tests.
+
+From the managers perspective Allure provides a clear 'big picture' of what features have been covered, where defects are clustered, how the timeline of execution looks like and many other convenient things
+
+Generate report:
+`allure serve <Transcript release Reports path>/tmp/allure_results`
 
 ## Feedback
 

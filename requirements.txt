@@ -2,4 +2,5 @@ pytest==6.2.5
 pytest-bdd==5.0.0
 pytest-xdist==2.4.0
 requests==2.27.1
+allure-pytest
 pytest-reportportal
