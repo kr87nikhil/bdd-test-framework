@@ -86,9 +86,8 @@ pipeline {
             parallel {
                 stage('TestRail Report') {
                     when {
-                        not {
-                           equals expected: '', actual: params.TESTRAIL_USERNAME
-                           equals expected: '', actual: params.TESTRAIL_KEY
+                        expression {
+                           return params.TESTRAIL_USERNAME == '' && params.TESTRAIL_KEY == ''
                         }
                     }
                     steps {
