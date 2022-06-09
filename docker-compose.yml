@@ -3,8 +3,7 @@ services:
   test:
     build:
       context: .
-      target: test
     volumes:
-      - .:/pytest_project
+      - .:/python-bdd
     stdin_open: true
     tty: true
