@@ -2,7 +2,7 @@
 FROM python:3.9-bullseye
 
 LABEL version="2.0"
-LABEL description="Create python 3.9 execution environment"
+LABEL description="Python 3.9 execution environment"
 LABEL org.opencontainers.image.authors="nikhil1552@gmail.com"
 
 WORKDIR pytest_bdd

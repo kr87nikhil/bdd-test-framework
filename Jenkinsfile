@@ -1,6 +1,11 @@
 pipeline {
     agent {
-        dockerfile true
+//     Root user needed to install virtualenv
+        dockerfile {
+            label 'docker-agent'
+            additionalBuildArgs '--network=host'
+            reuseNode true
+        }
     }
     options {
         timeout(time: 30, unit: 'MINUTES')
@@ -35,13 +40,29 @@ pipeline {
         RP_UUID = "${params.REPORT_PORTAL_ACCESS_KEY}"
         TESTRAIL_ID = "${params.TESTRAIL_USERNAME}"
         TESTRAIL_KEY = "${params.TESTRAIL_API_KEY}"
+        VIRTUAL_ENVIRONMENT = '../pytest_bdd/test_workspace'
+//         './test_workspace'
     }
     stages {
-        stage('SonarQube analysis') {
-            environment {
-                scannerHome = tool 'SonarScanner 4.7'
-            }
+        stage('Build') {
             steps {
+//                 sh '''
+//                     pip install virtualenv
+//                     if [ ! -d "$VIRTUAL_ENVIRONMENT" ]; then
+//                         python3 -m virtualenv $VIRTUAL_ENVIRONMENT
+//                     fi
+//                 '''
+                sh '''
+                    . $VIRTUAL_ENVIRONMENT/bin/activate
+                    pip install .
+                '''
+            }
+        }
+        stage('SonarQube analysis') {
+            steps {
+                script {
+                    scannerHome = tool 'SonarScanner 4.7'
+                }
                 withSonarQubeEnv(credentialsId: 'sonar-creds', installationName: 'SonarCloud') {
                     sh '${scannerHome}/bin/sonar-scanner -D"project.projectBaseDir=python-bdd'
                 }
@@ -73,6 +94,7 @@ pipeline {
                     REPORT_PORTAL_FLAG = "${params.REPORT_PORTAL_ACCESS_KEY}" == "" ? "" : "--reportportal"
                 }
                 sh '''
+                    . $VIRTUAL_ENVIRONMENT/bin/activate
                     py.test -k ${params.TEST_SUITE} -n auto $REPORT_PORTAL_FLAG --cache-clear\
                     --log-file=reports/${params.TEST_SUITE}/log.txt\
                     --junitxml=reports/${params.TEST_SUITE}/execution_result.xml\
@@ -125,9 +147,8 @@ pipeline {
         always {
             junit "reports/${params.TEST_SUITE}/execution_result.xml"
         }
-        failure {
+        unstable {
             archiveArtifacts "reports/${params.TEST_SUITE}/log.txt"
-//             emailext body: '$DEFAULT_CONTENT', subject: '$DEFAULT_SUBJECT', recipientProviders: [developers()]
         }
     }
 }
