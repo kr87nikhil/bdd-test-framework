@@ -45,8 +45,9 @@ $ source test_workspace/bin/activate
 ```
 Common:
 ```console
+pip install --upgrade pip setuptools
 pip install -e .
-pip install -r requirements.txt
+pip install -r requirements.txt -r ./tests/app_aws/requirements.txt -r ./tests/database/requirements.txt
 ```
 
 ### 2. Using Docker
@@ -57,6 +58,11 @@ $ docker-compose build
 $ docker-compose run test sh
 ```
 This will open the docker shell.
+
+Virtual Environment: 
+1. Activate: `. ../pytest_bdd/test_workspace/bin/activate`
+2. `pip install .`
+3. Deactivate: `deactivate`
 
 ## Usage
 Generate Step definition
