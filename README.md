@@ -2,9 +2,11 @@
 
 - [Introduction](#introduction)
 - [Pre-requisite](#pre-requisite)
-  - [From Terminal](#1-from-terminal)
+  - [Python Installation](#1-python-37)
   - [Using Docker](#2-using-docker)
 - [Usage](#usage)
+  - Python Installation
+  - Docker container
 - [Debugging](#debugging)
 - [Integration Coverage](#integration-coverage)
   - [Database](#database)
@@ -12,9 +14,9 @@
      - Non-Relational
   - [Web Service](#web-service)
 - [External Report](#external-report)
+  - [Allure](#allure)
   - [Report Portal](#report-portal)
   - [TestRail](#testrail)
-  - [Allure](#allure)
 - [Feedback](#feedback) - Please create issues to provide feedback!
 
 
@@ -30,9 +32,7 @@ It is built on top of `pytest` library.
 - Actively maintained with a particularity open-source community
 
 ## Pre-requisite
-
-### 1. From Terminal
-**Install Python 3.9 or above**
+### 1. Python 3.7
 1. Windows
 ```cmd
 $ python -m venv test_workspace --upgrade-deps
@@ -51,34 +51,35 @@ pip install -r requirements.txt -r ./tests/app_aws/requirements.txt -r ./tests/d
 ```
 
 ### 2. Using Docker
-
-These tests have been packaged to run with all dependencies installed within a Docker container. To run install docker and open a shell:
+These tests have been packaged to run with all dependencies installed within a Docker container.
+To run, install docker and execute:
 ```bash
-$ docker-compose build
-$ docker-compose run test sh
+$ docker compose build
+$ docker compose run test pip install .
 ```
-This will open the docker shell.
-
-Virtual Environment: 
-1. Activate: `. ../pytest_bdd/test_workspace/bin/activate`
-2. `pip install .`
-3. Deactivate: `deactivate`
 
 ## Usage
 Generate Step definition
-```sh
-python -m py.test --generate-missing --feature .\tests\app_aws\features .\tests\app_aws\step_defs
+```bash
+$ py.test --generate-missing --feature .\tests\app_aws\features .\tests\app_aws\step_defs
 ```
 
+### Python installation
 Run the test matching marker while printing all variables and verbose output
 ```bash
-$ pytest -vvl -m "database"
+$ py.test -vvl -m "database"
 ```
 
 Run the tests for a certain file matching a keyword
 ```bash
-$ pytest -k <test_file_name>
+$ pytest -k <test_file_keyword>
 ```
+
+### Docker solution
+By default, Calculator test will be executed: `docker compose run test`
+
+To execute another scenarios: `docker compose run test py.test -m "<module_name>"`
+
 
 ## Debugging
 
@@ -91,6 +92,12 @@ entry mode in the docker container.
 2. If you'd like to debug a piece of code, you can add the following built-in functions
    to a section of the code to enter into the pdb debugger while running pytest. 
    * `breakpoint()`
+
+3. If you'd like to debug test case execution in docker container
+```bash
+$ docker compose run test -i
+$ docker compose exec -it <container_name> sh
+```
 
 ## Integration Coverage
 ### 1. Database
@@ -105,6 +112,19 @@ No-SQL database means not-only SQL, provides other programming construct to acce
 [Go Rest](https://gorest.co.in/) - Online REST API for Testing
 
 ## External Report
+### Allure
+Allure Framework is a flexible lightweight multi-language test report tool.
+It not only shows a very concise representation of what have been tested in a neat web report form, but allows everyone participating in the development process to extract maximum of useful information from everyday execution of tests.
+
+From the managers perspective Allure provides a clear 'big picture' of what features have been covered, where defects are clustered, how the timeline of execution looks like and many other convenient things
+
+Generate report:
+`allure serve reports/<test_module>/tmp/allure_results`
+
+**Reference:**
+1. https://github.com/allure-framework/allure2
+2. https://docs.qameta.io/allure/#_report_structure
+
 ### Report Portal
 ReportPortal is a service, that provides increased capabilities to speed up results analysis and reporting through the use of built-in analytic features.
 Report portal provides:
@@ -115,7 +135,7 @@ Report portal provides:
 For authentication, set environment variable:
 * RP_UUID
 
-Reference: https://github.com/reportportal/agent-python-pytest
+**Reference**: https://github.com/reportportal/agent-python-pytest
 
 ### TestRail
 TestRail is a web-based test case management tool.
@@ -125,15 +145,6 @@ TestRail allows team members to enter test cases, organize test suites, execute 
 For authentication, set environment variable:
 * TESTRAIL_ID
 * TESTRAIL_KEY
-
-### Allure
-Allure Framework is a flexible lightweight multi-language test report tool.
-It not only shows a very concise representation of what have been tested in a neat web report form, but allows everyone participating in the development process to extract maximum of useful information from everyday execution of tests.
-
-From the managers perspective Allure provides a clear 'big picture' of what features have been covered, where defects are clustered, how the timeline of execution looks like and many other convenient things
-
-Generate report:
-`allure serve <Transcript release Reports path>/tmp/allure_results`
 
 ## Feedback
 
