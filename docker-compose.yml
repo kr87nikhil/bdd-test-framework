@@ -3,8 +3,17 @@ services:
   test:
     build:
       context: .
+    environment:
+      PYTHONPATH: /usr/src/python-bdd
+      RP_UUID:
+      TESTRAIL_ID:
+      TESTRAIL_KEY:
+    labels:
+      com.learning.project: "Python BDD solution"
+      com.learning.description: "All integration coverage with python solution"
     volumes:
-      - .:/python-bdd
-      - /python-bdd/test_workspace
-    stdin_open: true
+      - .:/usr/src/python-bdd
+      - /usr/src/python-bdd/test_workspace
+    working_dir: /usr/src/python-bdd
     tty: true
+    stdin_open: true
