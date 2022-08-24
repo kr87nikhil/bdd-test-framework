@@ -13,6 +13,7 @@ services:
       com.learning.description: "All integration coverage with python solution"
     volumes:
       - .:/usr/src/python-bdd
+      - ~/.aws/credentials:/root/.aws/credentials
       - /usr/src/python-bdd/test_workspace
     working_dir: /usr/src/python-bdd
     tty: true

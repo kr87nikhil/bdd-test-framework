@@ -86,7 +86,7 @@ class ReportUtility:
                 status_id = cls._get_testrail_status(test_case)
                 if cls._has_todo_tag(status_id, test_case):
                     continue
-                case_name = test_case.get('name')
+                case_name = test_case.get('name')[:250]
                 suite_id = int(cls._get_property(test_case, 'testrail_suite_id'))
                 test_result['case_id'] = cls.get_suite_case_map().get(suite_id).get(case_name)
                 test_result['status_id'] = status_id
