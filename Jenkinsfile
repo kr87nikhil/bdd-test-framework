@@ -20,31 +20,14 @@ pipeline {
             choices: ['calculator', 'dynamo_db'],
             description: 'Select test suite'
         )
-        password(
-            name: 'REPORT_PORTAL_ACCESS_KEY',
-            defaultValue: '',
-            description: 'ReportPortal Access token under "Profile" section'
+        booleanParam(
+            name: 'IS_TESTRAIL_ENABLED',
+            defaultValue: false,
+            description: 'Publish Test execution report to Testrail'
         )
-        string(
-            name: 'TESTRAIL_USERNAME',
-            defaultValue: '',
-            description: 'TestRail email id'
-        )
-        password(
-            name: 'TESTRAIL_API_KEY',
-            defaultValue: '',
-            description: 'TestRail API KEY under "My Settings" section'
-        )
-    }
-    environment {
-        RP_UUID = "${params.REPORT_PORTAL_ACCESS_KEY}"
-        TESTRAIL_ID = "${params.TESTRAIL_USERNAME}"
-        TESTRAIL_KEY = "${params.TESTRAIL_API_KEY}"
-        VIRTUAL_ENVIRONMENT = '../pytest_bdd/test_workspace'
-//         './test_workspace'
     }
     stages {
-        stage('Build') {
+        stage('Docker Build') {
             steps {
 //                 sh '''
 //                     pip install virtualenv
@@ -53,12 +36,12 @@ pipeline {
 //                     fi
 //                 '''
                 sh '''
-                    . $VIRTUAL_ENVIRONMENT/bin/activate
                     pip install .
                 '''
             }
         }
         stage('SonarQube analysis') {
+            agent any
             steps {
                 script {
                     scannerHome = tool 'SonarScanner 4.7'
@@ -69,6 +52,7 @@ pipeline {
             }
         }
         stage("Quality Gate") {
+            agent any
             steps {
                 timeout(time: 30, unit: 'MINUTES') {
                     // Parameter indicates whether to set pipeline to UNSTABLE if Quality Gate fails
@@ -78,6 +62,7 @@ pipeline {
             }
         }
         stage('AWS Connectivity') {
+            agent any
             environment {
                 AWS_DEFAULT_REGION = 'us-east-1'
             }
@@ -89,13 +74,12 @@ pipeline {
             }
         }
         stage('Test Execution') {
+            environment {
+                RP_UUID = credentials('RP_ACCESS_KEY')  // ReportPortal Access token under "Profile" section
+            }
             steps {
-                script {
-                    REPORT_PORTAL_FLAG = "${params.REPORT_PORTAL_ACCESS_KEY}" == "" ? "" : "--reportportal"
-                }
                 sh '''
-                    . $VIRTUAL_ENVIRONMENT/bin/activate
-                    py.test -k ${params.TEST_SUITE} -n auto $REPORT_PORTAL_FLAG --cache-clear\
+                    py.test -k ${params.TEST_SUITE} -n auto --reportportal --cache-clear\
                     --log-file=reports/${params.TEST_SUITE}/log.txt\
                     --junitxml=reports/${params.TEST_SUITE}/execution_result.xml\
                     --html=reports/${params.TEST_SUITE}/index.html --self-contained-html\
@@ -105,15 +89,20 @@ pipeline {
             }
         }
         stage('Generate Reports') {
+            agent any
             parallel {
                 stage('TestRail Report') {
                     when {
                         expression {
-                           return params.TESTRAIL_USERNAME == '' && params.TESTRAIL_KEY == ''
+                            return params.IS_TESTRAIL_ENABLED
                         }
                     }
                     steps {
-                        bat 'python tests/publish_testrail_report.py --test_modules QA'
+                        // TestRail API KEY under "My Settings" section
+                        withCredentials([usernamePassword(credentialsId: 'TESTRAIL',
+                        passwordVariable: 'TESTRAIL_KEY', usernameVariable: 'TESTRAIL_ID')]) {
+                            bat 'python tests/publish_testrail_report.py --test_modules QA'
+                        }
                     }
                 }
                 stage('Cucumber BDD Report') {
