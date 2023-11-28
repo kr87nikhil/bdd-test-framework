@@ -3,3 +3,4 @@ pytest-bdd==5.0.0
 pytest-xdist==2.4.0
 requests==2.27.1
 pytest-reportportal
+aiohttp>=3.9.0 # not directly required, pinned by Snyk to avoid a vulnerability
